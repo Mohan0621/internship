@@ -1,4 +1,3 @@
-
 import {checkValidToken,getPayload} from "../utlites/auth.ts"
 import dotenv from "dotenv";
 dotenv.config();
