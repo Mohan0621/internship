@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String    @unique(map: "user_email_unique")
+  emailVerified Boolean   @default(false) @map("email_verified")
+  image         String?
+
+  createdAt DateTime @default(now()) @db.Timestamp(6) @map("created_at")
+  updatedAt DateTime @default(now()) @db.Timestamp(6) @map("updated_at")
+
+  account Account[]
+  session Session[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime @db.Timestamp(6) @map("expires_at")
+  token     String   @unique(map: "session_token_unique")
+
+  createdAt DateTime @default(now()) @db.Timestamp(6) @map("created_at")
+  updatedAt DateTime @db.Timestamp(6) @map("updated_at")
+
+  ipAddress String? @map("ip_address")
+  userAgent String? @map("user_agent")
+
+  userId String @map("user_id")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([userId], map: "session_userId_idx")
+  @@map("session")
+}
+
+model Account {
+  id String @id
+
+  accountId  String @map("account_id")
+  providerId String @map("provider_id")
+  userId     String @map("user_id")
+
+  accessToken           String?   @map("access_token")
+  refreshToken          String?   @map("refresh_token")
+  idToken               String?   @map("id_token")
+  accessTokenExpiresAt  DateTime? @db.Timestamp(6) @map("access_token_expires_at")
+  refreshTokenExpiresAt DateTime? @db.Timestamp(6) @map("refresh_token_expires_at")
+
+  scope    String?
+  password String?
+
+  createdAt DateTime @default(now()) @db.Timestamp(6) @map("created_at")
+  updatedAt DateTime @db.Timestamp(6) @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([userId], map: "account_userId_idx")
+  @@map("account")
+}
+model Verification {
+  id         String @id
+  identifier String
+  value      String
+
+  expiresAt DateTime @db.Timestamp(6) @map("expires_at")
+
+  createdAt DateTime @default(now()) @db.Timestamp(6) @map("created_at")
+  updatedAt DateTime @default(now()) @db.Timestamp(6) @map("updated_at")
+
+  @@index([identifier])
+  @@map("verification")
+}

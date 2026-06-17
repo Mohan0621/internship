@@ -101,16 +101,14 @@ export default class AuthController {
 
 import "dotenv/config";
 import {betterAuth} from "better-auth"
-import {drizzleAdapter} from "@better-auth/drizzle-adapter";
-import {db} from "../db/aidb"
-import * as schema from "../auth-schema";
+import { prismaAdapter } from "better-auth/adapters/prisma";
+import prisma from "../db/prisma"
 
 export const auth=betterAuth({
     secret:process.env.BETTER_AUTH_SECRET,
 
-    database:drizzleAdapter(db,{
-        provider:"pg",
-        schema,
+    database:prismaAdapter(prisma,{
+        provider:"postgresql",
     }),
 
     emailAndPassword:{
