@@ -1,8 +1,10 @@
-export default interface Student {
-    id: string;
-    userId: string;
+export default interface StudentProfileDTO {
     rollNumber: string;
-    course: string;
-    createdAt: Date;
-    updatedAt: Date;
+    department: string;
+    collegeName: string;
+    cgpa?: number;
+    githubUrl?: string;
+    leetcode?: string;
+    portfolio?: string;
+    linkedin?: string;
 }

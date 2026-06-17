@@ -1,69 +1,132 @@
-import {checkValidToken,getPayload} from "../utlites/auth.ts"
-import dotenv from "dotenv";
-dotenv.config();
+import { auth } from "../db/auth.ts"; // your better-auth instance
 
-function requireLogin(req:any, res:any, next:Function) {
-    const token = req.cookies?.refresh_token;
+export async function requireLogin(
+    req: any,
+    res: any,
+    next: Function
+) {
 
-    if (!token) {
+    const session = await auth.api.getSession({
+        headers: req.headers
+    });
+
+    if (!session) {
+
         return res.status(401).json({
             message: "login required"
         });
+
     }
+
+    req.user = session.user;
 
     next();
+
 }
 
-function requireUser(req:any, res:any, next:Function) {
-    const token = req.cookies?.refresh_token;
+export async function requireUser(
+    req: any,
+    res: any,
+    next: Function
+) {
 
-    if (!token) {
-        return res.redirect("/auth/login");
-    }
+    const session = await auth.api.getSession({
+        headers: req.headers
+    });
 
-    if (!checkValidToken(token)) {
+    if (!session) {
+
         return res.status(401).json({
-            message: "invalid token"
+            message: "login required"
         });
+
     }
 
-    const payload = getPayload(token);
+    if (session.user.role !== "STUDENT") {
 
-    if (payload.role !== "user") {
         return res.status(403).json({
-            message: "access denied, user login required"
+
+            message:
+                "access denied, student login required"
+
         });
+
     }
+
+    req.user = session.user;
 
     next();
+
 }
+export async function requireAdmin(
+    req: any,
+    res: any,
+    next: Function
+) {
 
-function requireAdmin(req:any, res:any, next:Function) {
-    const token = req.cookies?.refresh_token;
+    const session = await auth.api.getSession({
+        headers: req.headers
+    });
 
-    if (!token) {
-        return res.redirect("/auth/login");
-    }
+    if (!session) {
 
-    if (!checkValidToken(token)) {
         return res.status(401).json({
-            message: "invalid token"
+            message: "login required"
         });
+
     }
 
-    const payload = getPayload(token);
+    if (session.user.role !== "ADMIN") {
 
-    if (payload.role !== "admin") {
         return res.status(403).json({
-            message: "access denied, admin login required"
+
+            message:
+                "access denied, admin login required"
+
         });
+
     }
+
+    req.user = session.user;
 
     next();
-}
 
-export {
-    requireLogin,
-    requireUser,
-    requireAdmin
+}
+export const requireRole = (
+    role: "STUDENT" | "JUDGE" | "ADMIN"
+) => {
+
+    return async (
+        req: any,
+        res: any,
+        next: Function
+    ) => {
+
+        const session =
+            await auth.api.getSession({
+                headers: req.headers
+            });
+
+        if (!session) {
+
+            return res.status(401).json({
+                message: "login required"
+            });
+
+        }
+
+        if (session.user.role !== role) {
+
+            return res.status(403).json({
+                message: "access denied"
+            });
+
+        }
+
+        req.user = session.user;
+
+        next();
+
+    };
+
 };

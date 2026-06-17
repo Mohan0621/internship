@@ -4,12 +4,12 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { authHandler } from "./routes/auth.js";
 import authRoutes from "./routes/login.js";
-
+import studentroutes from "./routes/studentRoutes.js";
 // Load environment variables
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 
 // Enable CORS with support for credentials/cookies
 app.use(cors({
@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Custom application authentication routes (controller-based)
 app.use("/api/custom-auth", authRoutes);
-
+app.use("/api/student", studentroutes);
 // Health check endpoint
 app.get("/api/health", (req, res) => {
     res.json({ status: "healthy", timestamp: new Date() });
