@@ -59,15 +59,25 @@ function createrefreshToken(role: string, userId: number): string {
 }
 
 function checkValidToken(token: string): boolean {
-    if (jwt.verify(token, process.env.JWT_SECRET!)){
+    if (jwt.verify(token, process.env.JWT_SECRET!)) {
         return true;
     }
     return false;
 }
 
-function getPayload(token: string){
-    const payload :any= jwt.verify(token, process.env.JWT_SECRET!);
+function getPayload(token: string) {
+    const payload: any = jwt.verify(token, process.env.JWT_SECRET!);
     return payload;
+}
+
+import { auth } from "../db/auth.ts"
+
+async function getuserid(req: any, res: any) {
+    const sessions = await auth.api.getSession(req, res)
+    if (!sessions) {
+        return null;
+    }
+    return sessions.userId;
 }
 
 export {

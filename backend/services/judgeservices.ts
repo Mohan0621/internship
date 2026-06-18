@@ -1,5 +1,5 @@
-import prisma from "../db/prisma.ts"
-import JudgeInterface from "../entites/judge.ts"
+import prisma from "../db/prisma.js";
+import JudgeInterface from "../entites/judge.js";
 
 export default class JudgeService {
     async createJudge(judge: JudgeInterface, userId: string) {

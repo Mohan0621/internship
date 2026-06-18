@@ -116,6 +116,9 @@ model Student {
 
   linkedin String?
 
+  teams       TeamMember[] @relation("TeamMembers")
+  ledTeams    Team[]       @relation("TeamLeader")
+
   createdAt DateTime @default(now())
 
   updatedAt DateTime @updatedAt
@@ -161,4 +164,42 @@ model Admin {
   updatedAt DateTime @updatedAt
 
   @@map("admin")
+}
+
+model Team {
+  id String @id @default(cuid())
+
+  name String @unique
+
+  members TeamMember[]
+
+  createdBy String
+
+  teamLeaderId String
+
+  teamLeader Student @relation("TeamLeader", fields: [teamLeaderId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  @@map("team")
+}
+
+model TeamMember {
+  id String @id @default(cuid())
+
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  studentId String
+  student   Student @relation("TeamMembers", fields: [studentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  @@unique([teamId, studentId])
+
+  @@map("teamMember")
 }

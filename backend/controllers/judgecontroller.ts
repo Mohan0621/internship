@@ -1,6 +1,6 @@
-import JudgeService from "../services/judgeservices.ts";
+import JudgeService from "../services/judgeservices.js";
 import { Request, Response } from "express";
-import { auth } from "../db/auth.ts"
+import { auth } from "../db/auth.js";
 export default class JudgeController {
     constructor(private judgeService: JudgeService) {
 

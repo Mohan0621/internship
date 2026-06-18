@@ -16,6 +16,10 @@ export default class StudentController {
 
                 collegeName: req.body.collegeName,
 
+                phonenumber: req.body.phonenumber,
+
+                year: req.body.year,
+
                 cgpa: req.body.cgpa,
 
                 githubUrl: req.body.githubUrl,
@@ -29,7 +33,7 @@ export default class StudentController {
             };
             const studentService = new StudentService();
 
-            const user_id = req.body.userId;
+            const user_id: string = req.user.id;
 
             const student = await studentService.createStudent(
 
@@ -88,7 +92,7 @@ export default class StudentController {
             const studentService = new StudentService();
             const student = await studentService.updateProfile(
 
-                req.body.userId,
+                req.user.id,
 
                 a
 
@@ -123,7 +127,7 @@ export default class StudentController {
             const studentService = new StudentService();
             const student = await studentService.getStudent(
 
-                req.body.userId
+                req.user.id
 
             );
 

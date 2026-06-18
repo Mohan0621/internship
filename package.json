@@ -9,7 +9,14 @@
     "build": "tsc",
     "start": "node backend/server.ts",
     "prisma:generate": "prisma generate",
-    "prisma:push": "prisma db push"
+    "prisma:push": "prisma db push",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest --run --coverage"
+  },
+  "vitest": {
+    "environment": "node",
+    "globals": true
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
@@ -20,6 +27,8 @@
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.13.1",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
@@ -29,9 +38,15 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.9.0",
     "@types/pg": "^8.11.10",
+    "@types/supertest": "^7.2.0",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "@types/uuid": "^10.0.0",
+    "@vitest/coverage-v8": "^4.1.9",
     "prisma": "^5.22.0",
+    "supertest": "^7.2.2",
     "tsx": "^4.19.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.9"
   }
 }
