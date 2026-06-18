@@ -48,7 +48,7 @@ export default class AuthController {
                     name,
                     email,
                     password,
-                    role: role || "user"
+                    role: role || "STUDENT"
                 },
                 asResponse: true
             });
