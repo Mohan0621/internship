@@ -21,12 +21,12 @@ async function runTest() {
   const authHeaders = { 'Content-Type': 'application/json', Cookie: setCookie };
 
   // Create student profile
-  const userId = registerData.user.id;
+
   const createRes = await fetch(`${BASE_URL}/api/student/create`, {
     method: 'POST',
     headers: authHeaders,
     body: JSON.stringify({
-      userId,
+
       rollNumber: '12345',
       department: 'CS',
       collegeName: 'Test College',

@@ -28,6 +28,7 @@ export default class AuthController {
 
             const data = await response.json();
             res.json(data);
+            res.redirect("/")
         } catch (error: any) {
             res.status(400).json({ message: error.message || "Login failed" });
         }

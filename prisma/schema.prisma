@@ -102,6 +102,10 @@ model Student {
 
   collegeName String
 
+  phonenumber BigInt
+
+  year Int
+
   cgpa Decimal?
 
   githubUrl String?

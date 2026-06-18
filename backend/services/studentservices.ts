@@ -26,9 +26,13 @@ export default class StudentService {
 
                     rollNumber: data.rollNumber,
 
+                    year: data.year,
+
                     department: data.department,
 
                     collegeName: data.collegeName,
+
+                    phonenumber: data.phonenumber,
 
                     cgpa: data.cgpa,
 
@@ -92,6 +96,10 @@ export default class StudentService {
                     department: data.department,
 
                     collegeName: data.collegeName,
+
+                    year: data.year,
+
+                    phonenumber: data.phonenumber,
 
                     cgpa: data.cgpa,
 
